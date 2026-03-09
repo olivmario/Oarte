@@ -1,4 +1,6 @@
-from app import get_db_connection
+from flask import jsonify
+
+from Models.Bd import get_db_connection
 
 
 class Usuario:
@@ -33,3 +35,15 @@ class Usuario:
         con.close()
 
         return lista_idade
+    
+    def listar_usuarios(self):
+
+        con = get_db_connection()
+        cursor = con.cursor(dictionary=True)
+        cursor.execute("Select * from usuarios")
+        lista_usuarios = cursor.fetchall()
+
+        cursor.close()
+        con.close()
+
+        return jsonify(lista_usuarios)
